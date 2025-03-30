@@ -129,6 +129,17 @@ def plan(space : str, planner : str):
             print("Approximate solution. Distance to goal is ", ss.getProblemDefinition().getSolutionDifference())
         print("Path length is ", length)
 
+        if path.getStateCount() > 1:            
+            for idx in range(path.getStateCount() - 1):
+                from_state = path.getState(idx)
+                to_state = path.getState(idx + 1)
+
+                # access the path
+                space = ss.getStateSpace()
+                dubins_path = space.getPath(from_state, to_state)
+                pass
+
+
 if __name__ == "__main__":
     # Create an argument parser
     parser = argparse.ArgumentParser(description='Optimal motion planning demo program.')
