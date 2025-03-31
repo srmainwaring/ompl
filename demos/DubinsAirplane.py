@@ -118,7 +118,7 @@ def plan(space : str, planner : str):
     ss.setPlanner(allocatePlanner(si, planner))
     ss.setup()
     print(ss)
-    result = ss.solve(10.0)
+    result = ss.solve(5.0)
     if result:
         path = ss.getSolutionPath()
         length = path.length()
@@ -136,8 +136,19 @@ def plan(space : str, planner : str):
 
                 # access the path
                 space = ss.getStateSpace()
-                dubins_path = space.getPath(from_state, to_state)
-                pass
+                path_type = space.getPath(from_state, to_state)
+
+                # access the path segments
+                db_path = path_type.path_
+
+                print(f"from_state: {from_state[0]:.1f}, {from_state[1]:.1f}, "
+                      f"{from_state[2]:.1f}, {from_state.yaw():.1f}")
+                print(f"to_state:   {to_state[0]:.1f}, {to_state[1]:.1f}, "
+                      f"{to_state[2]:.1f}, {to_state.yaw():.1f}")
+                print(f"path_type.phi: {path_type.phi_:.2f}")
+                print(f"path_type.deltaZ: {path_type.deltaZ_:.4f}")
+                print(f"papath_typeth.numTurns: {path_type.numTurns_}")
+                print(f"path_type.path: {path_type.path}")
 
 
 if __name__ == "__main__":

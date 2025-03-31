@@ -305,9 +305,11 @@ void __set%(member_function_camelize)s(%(cls)s* self, double %(member_function)s
     })
 
         # I don't know how to export a C-style array of an enum type
-        for stype in ['Dubins', 'ReedsShepp']:
+        for stype in ['ReedsShepp']:
             self.ompl_ns.enumeration(stype + 'PathSegmentType').exclude()
             self.ompl_ns.class_(stype + 'Path').exclude()
+
+        for stype in ['Dubins', 'ReedsShepp']:
             self.ompl_ns.class_(stype + "StateSpace").member_function(
                 stype[0].lower() + stype[1:],
                 arg_types=[
@@ -518,6 +520,8 @@ void __set%(member_function_camelize)s(%(cls)s* self, double %(member_function)s
         # add wrappers for std::optional types
         self.add_optional_wrapper('ompl::base::OwenStateSpace::PathType') 
 
+        # add wrappers for c-array types
+        self.add_c_array_3_wrapper('ompl::base::DubinsStateSpace::DubinsPathSegmentType')
 
 class ompl_control_generator_t(code_generator_t):
     def __init__(self):
