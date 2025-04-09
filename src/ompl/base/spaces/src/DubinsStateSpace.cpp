@@ -37,6 +37,7 @@
 #include "ompl/base/spaces/DubinsStateSpace.h"
 #include "ompl/base/SpaceInformation.h"
 #include "ompl/util/Exception.h"
+#include "ompl/util/NoDestructor.h"
 #include <queue>
 #include <boost/math/constants/constants.hpp>
 
@@ -719,16 +720,17 @@ DubinsStateSpace::DubinsPath dubins(double d, double alpha, double beta)
 }
 
 const std::vector<std::vector<DubinsStateSpace::DubinsPathSegmentType> >& DubinsStateSpace::dubinsPathType() {
-  static std::vector<std::vector<DubinsStateSpace::DubinsPathSegmentType> >* pathType
-    = new std::vector<std::vector<DubinsStateSpace::DubinsPathSegmentType> >(
-      {{
-        {{DUBINS_LEFT, DUBINS_STRAIGHT, DUBINS_LEFT}},
-        {{DUBINS_RIGHT, DUBINS_STRAIGHT, DUBINS_RIGHT}},
-        {{DUBINS_RIGHT, DUBINS_STRAIGHT, DUBINS_LEFT}},
-        {{DUBINS_LEFT, DUBINS_STRAIGHT, DUBINS_RIGHT}},
-        {{DUBINS_RIGHT, DUBINS_LEFT, DUBINS_RIGHT}},
-        {{DUBINS_LEFT, DUBINS_RIGHT, DUBINS_LEFT}}
-      }}
+    static const ompl::NoDestructor<
+        std::vector<std::vector<DubinsStateSpace::DubinsPathSegmentType>>
+    > pathType(
+        {{
+            {{DUBINS_LEFT, DUBINS_STRAIGHT, DUBINS_LEFT}},
+            {{DUBINS_RIGHT, DUBINS_STRAIGHT, DUBINS_RIGHT}},
+            {{DUBINS_RIGHT, DUBINS_STRAIGHT, DUBINS_LEFT}},
+            {{DUBINS_LEFT, DUBINS_STRAIGHT, DUBINS_RIGHT}},
+            {{DUBINS_RIGHT, DUBINS_LEFT, DUBINS_RIGHT}},
+            {{DUBINS_LEFT, DUBINS_RIGHT, DUBINS_LEFT}}
+        }}
     );
     return *pathType;
 }
